@@ -1,0 +1,12 @@
+language: java
+deploy:
+  provider: releases
+  api_key:
+    secure: <API KEY FOR PLUGINNAME>
+  file_glob: true
+  file: build/libs/*
+  skip_cleanup: true
+  on:
+    all_branches: true
+    tags: true
+    repo: xebialabs-community/xld-user-export-api
