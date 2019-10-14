@@ -14,7 +14,7 @@ See the [XL Deploy reference manual](https://docs.xebialabs.com/xl-Deploy) for b
 
 ## Overview
 
-The custom REST API provides the ability to ...
+This plugin implements a custom REST API that returns users along with their roles and permissions.
 
 ## Requirements
 
@@ -23,42 +23,56 @@ The custom REST API provides the ability to ...
 
 ## Installation
 
-*   Copy the latest JAR file from the [releases page](https://github.com/xebialabs-community/xld-user-export-api/Deploys) into the `XL_DEPLOY_SERVER/plugins/` directory.
-*   Restart the XL Deploy server.
+* Copy the latest JAR file from the [releases page](https://github.com/xebialabs-community/xld-user-export-api/Deploys) into the `XL_DEPLOY_SERVER/plugins/` directory.
+* Restart the XL Deploy server.
 
 ## Usage
 
-Sample Output...
+Make an HTTP GET request to https://\<your xl deploy\>/api/extension/user-export/users
+
+The response object is similar to the following...  
 
 ```json
 {
-    "global" :
-        [
-            {
-                "user":"Jane Smith",
-                "username":"jsmith",
-                "permissions": ["login"]
-            },
-            {
-                "user":"Bill Partwick",
-                "username":"bpartwick",
-                "permissions": ["login", "Deploy.create"]
+  "entity": {
+    "users": {
+      "jsmith": {
+        "roles": [
+          {
+            "role": "ops",
+            "permissions": {
+              "global": [
+                "login",
+                "security#edit",
+                "controltask#execute"
+              ]
             }
-        ],
-    "folders" :
-        [
-            {
-                "folder": "Folder Name",
-                "principles": 
-                [
-                    {
-                        "user":"Bill Partwick",
-                        "username":"bpartwick",
-                        "permissions":["template.create"]
-                    }
-                ]
-            }
+          }
         ]
+      },
+      "tim": {
+        "roles": [
+          {
+            "role": "dev",
+            "permissions": {}
+          },
+          {
+            "role": "ops",
+            "permissions": {
+              "global": [
+                "login",
+                "security#edit",
+                "controltask#execute"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "stdout": "",
+  "stderr": "",
+  "exception": null
 }
 ```
 

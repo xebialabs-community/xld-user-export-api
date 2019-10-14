@@ -15,6 +15,6 @@
            xmlns="http://www.xebialabs.com/deployit/endpoints"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/endpoints endpoints.xsd">
     
-    <endpoint path="/userexport/" method="GET" script="user-export/export.py" />
+    <endpoint path="/user-export/users" method="GET" script="user-export/user_export.py" />
 
 </endpoints>

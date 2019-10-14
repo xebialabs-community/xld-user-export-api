@@ -14,31 +14,44 @@ import sys
 import logging
 import re
 
-# Import our Java class(es) as needed
-from PLUGINNAME import Example
-
-# Import other Java classes as needed
-from java.util import HashMap
-
-# Import other XebiaLabs classes as needed
-from com.xebialabs.xlrelease.api.v1 import ReleaseApi
-from com.xebialabs.xlrelease.api.v1.forms import Variable
-
 logging.basicConfig(filename='log/custom-api.log',
                             filemode='a',
                             format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                             datefmt='%H:%M:%S',
                             level=logging.DEBUG)
 
-def main():
-    logging.debug("main: begin")
+logging.debug("main: begin")
 
-    roles = roleService.readRolePrincipals()
-    for rp in roles:
-        print(rp)
+users = {}
 
-    logging.debug("main: end")
+# https://docs.xebialabs.com/xl-deploy/8.5.x/javadoc/engine-api/com/xebialabs/deployit/engine/api/RoleService.html
+# Returns: a List of RolePrinciple objects
+#   RolePrinciple: Role, List<String> principles
+#       Role: id, name
+roles = roleService.readRolePrincipals()
+for rp in roles:
+    logging.debug(rp)
 
+    # get permissions for role
+    # https://docs.xebialabs.com/xl-deploy/8.5.x/javadoc/engine-api/com/xebialabs/deployit/engine/api/PermissionService.html
+    # Returns: a Map of configuration item ids to permissions granted to the user. 'global' is a special ci
+    permissions = permissionService.getGrantedPermissions(rp.role.name)
+    logging.debug(permissions)
 
-if __name__ == '__main__' or __name__ == '__builtin__':
-    main()
+    for p in rp.principals:
+        if not p in users:
+            users[p] = {}
+            users[p]['roles'] = []
+
+        role = {}
+        role['role'] = rp.role.name
+        role['permissions'] = permissions
+        users[p]['roles'].append(role)
+
+# form response
+response.statusCode = 200
+response.entity = {
+    "users": users
+}
+
+logging.debug("main: end")
