@@ -17,6 +17,8 @@ if (!project.hasProperty('release.useLastTag')) {
   project.ext['release.useLastTag'] = true
 }
 
+//version = "0.1.0"
+
 repositories {
   mavenLocal()
   mavenCentral()

@@ -1,8 +1,9 @@
 language: java
+jdk: openjdk8
 deploy:
   provider: releases
   api_key:
-    secure: <API KEY FOR PLUGINNAME>
+    secure: WJN7xCsLVqjb4226mhmDOPOKnIgjVlYlaiH8H3cQc9g35EU9n6aTJ71ElMWI/XifoIlOecF+AWALahmqxjm6ahB70fJuflKcV5bu9b6OQE/MRtKI0YsMV1OE67n+FcENaXxxv4hQatj6qfsxqGpld08EY6HsM7WS760PVhFxWnSsxDlQle/nnOAAfTXK7IdJ53zM+ehkKgnt61Qg0R49ugKooECOJH6D0p8MEoT2xFZFVt+Yk8QWUxCuHp0pTmP6beF54AU6EIIoXSvmillz6kbywo5ypm7o4vQ5GQiwUuEBYd5OmqlsN/uS36aL5SGX/K8ckYNyl5ElM+3z6GHHR0FAuGZNyQQ/ca7IKLrU/s4GCjjUhWjheyJ7fEIDQCLQEK9EzSker/v67zSEkKJoWS694gBcIDUr+VJFaCBX/uDZLeZmBw/fpyVPD7sk8k6Hc0N9YLMFq7Fq5ZpKq2AURSvB5K+24c66JDMmeHC68Lgdc6kOeDhIHKRGdMNhtfd75AQPHehS4RewW2CBQt5ABbFWU13EVsJFKpcA3vn1EYYA19fjYxVSSaKNrDNYxslFaa9T/7lRyjOQF7pgMXpv/1FKkEQn7Fxwk4D6dx9BSenp3EAaLaouW9r5fODwUYTBsQagrxsUo3QATUiG1a0QimEkWLZ4Y64j75vfh56epeg=
   file_glob: true
   file: build/libs/*
   skip_cleanup: true
