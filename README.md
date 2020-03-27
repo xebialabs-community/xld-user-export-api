@@ -28,53 +28,66 @@ This plugin implements a custom REST API that returns users along with their rol
 
 ## Usage
 
-Make an HTTP GET request to https://\<your xl deploy\>/api/extension/user-export/users
+To retrieve all users, make an HTTP GET request to...
+
+```bash
+http://<your xl release>/api/extension/user-export/users
+```
 
 The response object is similar to the following...  
 
 ```json
 {
-  "entity": {
-    "users": {
-      "jsmith": {
-        "roles": [
-          {
-            "role": "ops",
-            "permissions": {
-              "global": [
-                "login",
-                "security#edit",
-                "controltask#execute"
-              ]
-            }
-          }
-        ]
-      },
-      "tim": {
-        "roles": [
-          {
-            "role": "dev",
-            "permissions": {}
-          },
-          {
-            "role": "ops",
-            "permissions": {
-              "global": [
-                "login",
-                "security#edit",
-                "controltask#execute"
-              ]
-            }
-          }
-        ]
-      }
-    }
-  },
-  "stdout": "",
-  "stderr": "",
-  "exception": null
+	"entity": {
+		"roles": [{
+			"role": "devops",
+			"permissions": {
+				"Applications/Tupelo": ["import#upgrade", "import#initial", "import#remove", "read", "repo#edit", "controltask#execute"]
+			},
+			"principals": ["tim"]
+		}],
+		"users": {
+			"admin": {
+				"roles": []
+			},
+			"tim": {
+				"roles": [{
+					"role": "devops",
+					"permissions": {
+						"Applications/Tupelo": ["import#upgrade", "import#initial", "import#remove", "read", "repo#edit", "controltask#execute"]
+					}
+				}]
+			},
+			"lynn": {
+				"roles": []
+			}
+		}
+	},
+	"stdout": "",
+	"stderr": "",
+	"exception": null
 }
 ```
+
+### Pagination
+
+If you have many users, you may want to paginate results.  Use the 'page' and 'resultsPerPage' query parameters to paginate through the results:
+
+```bash
+http://<your xl release>/api/extension/user-export/users?page=0&resultsPerPage=10
+```
+
+The first page is '0'.
+
+### Find A Specific User
+
+You may limit the search to a single user with the 'userid' query parameter.  For example:
+
+```bash
+http://<your xl release>/api/extension/user-export/users?userid=admin
+```
+
+Note: while this lets you select a specific user, the plugin must still read all roles to find those roles the user belongs to.  If you have a large number of roles, it may still take a few moments for the request to process.
 
 ## Developers
 
